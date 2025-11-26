@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<body>
+<h2>Enviar Datos por WebSocket</h2>
+
+<label>Nombre:</label><br>
+<input id="nombre" type="text"><br><br>
+
+<label>Edad:</label><br>
+<input id="edad" type="number"><br><br>
+
+<label>Dirección:</label><br>
+<input id="direccion" type="text"><br><br>
+
+<label>Mensaje:</label><br>
+<input id="mensaje" type="text"><br><br>
+
+<button onclick="enviar()">Enviar</button>
+
+<p id="log"></p>
+
+<script>
+const ws = new WebSocket("ws://localhost:8000");
+
+ws.onopen = () => {
+    document.getElementById("log").innerText =
+        "Conectado al servidor WebSocket.";
+};
+
+ws.onmessage = (ev) => {
+    document.getElementById("log").innerText = ev.data;
+};
+
+function enviar() {
+    const data = {
+        nombre: document.getElementById("nombre").value,
+        edad: document.getElementById("edad").value,
+        direccion: document.getElementById("direccion").value,
+        mensaje: document.getElementById("mensaje").value
+    };
+
+    ws.send(JSON.stringify(data));
+}
+</script>
+
+</body>
+</html>
